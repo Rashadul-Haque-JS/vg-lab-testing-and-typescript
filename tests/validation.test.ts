@@ -1,5 +1,28 @@
-import { validateEmail, validatePersonalNumber, validateZipCode, validateText } from "../utils/validation";
+import {
+  validateEmail,
+  validatePersonalNumber,
+  validateZipCode,
+  validateText,
+} from "../utils/validation";
 
+const validClient = {
+  firstname: "Jhon",
+  lastname: "Damn",
+  email: "jhon@gmail.com",
+  personalnumber: "600523-5643",
+  address: "new town 5",
+  zipCode: "123 45",
+  city: "Dunkrik",
+  country: "Highland",
+};
+
+const invalidClient = {
+  lastname: "Damn",
+  personalnumber: "600523-5643",
+  address: "new town 5",
+  zipCode: "123 45",
+  country: "Highland",
+};
 // Email test
 describe("Validate email", () => {
   test("Should return true when input email format is valid", () => {
@@ -21,11 +44,15 @@ describe("Validate personal number", () => {
   });
 
   test("Should throw an error as invalid person number", () => {
-    expect(() => validatePersonalNumber("5507131405")).toThrow("Invalid person number");
+    expect(() => validatePersonalNumber("5507131405")).toThrow(
+      "Invalid person number"
+    );
   });
 
   test("Should throw an error when person number is empty", () => {
-    expect(() => validatePersonalNumber("")).toThrow("Person number is required");
+    expect(() => validatePersonalNumber("")).toThrow(
+      "Person number is required"
+    );
   });
 });
 
@@ -40,8 +67,17 @@ describe("Validate zip code", () => {
   });
 });
 
-
 // Others text validations
 describe("Validate text", () => {
-// .......
+  test("Should return true when value is not empty", () => {
+    expect(validateText(validClient)).toBe(true);
+  });
+
+  test("Should return error when value is empty", () => {
+    expect(validateText(invalidClient)).toStrictEqual([
+      { error: "firstname is required" },
+      { error: "email is required" },
+      { error: "city is required" },
+    ]);
+  });
 });
