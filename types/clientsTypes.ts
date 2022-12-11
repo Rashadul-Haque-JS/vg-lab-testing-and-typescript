@@ -1,6 +1,6 @@
 
 
-export type Tclient = {
+export type TClient = {
   firstname: string;
   lastname: string;
   email: string;

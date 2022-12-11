@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
-import { Tclient } from "../types/clientsTypes";
-const clientSchema = new Schema<Tclient>({
+import { TClient } from "../types/clientsTypes";
+const clientSchema = new Schema<TClient>({
   firstname: String,
   lastname: String,
   email: String,

@@ -1,4 +1,4 @@
-import { Tclient } from "../types/clientsTypes";
+import { TClient } from "../types/clientsTypes";
 
 export const validateEmail = (email: string) => {
   const validEmail =
@@ -37,7 +37,8 @@ export const validateZipCode = (zip: string) => {
   }
 };
 
-export const validateText = (object:any) => {
+export const validateText = (object: TClient | any) => {
+  // type 'any' is used for creating and testing invalid data
   const keys = [
     "firstname",
     "lastname",
@@ -49,16 +50,16 @@ export const validateText = (object:any) => {
     "country",
   ];
   const error: any = [];
-  keys.forEach(key =>{
-    if(!object.hasOwnProperty(key)){
+  keys.forEach((key) => {
+    if (!object.hasOwnProperty(key)) {
       error.push({ error: `${key} is required` });
-    }else{
-      return error
+    } else {
+      return error;
     }
-  })
+  });
 
   if (error.length) {
-    console.log(error)
+    console.log(error);
     return error;
   } else {
     return true;
