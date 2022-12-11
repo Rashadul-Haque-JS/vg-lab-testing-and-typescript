@@ -1,44 +1,44 @@
-import { TClient } from "../types/clientsTypes";
+/* Three functons (almost identical) for validation of email, personalnumber and zipCode have been created as these function's names
+are mentioned in instructions separately. Otherwise it would be possible to implement DRY concept here by creating
+one function for format validation.
+*/
 
-export const validateEmail = (email: string) => {
+import { TClient, Terror } from "../types/types";
+
+export const validateEmail = (key: string, value: string) => {
   const validEmail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  if (!email) {
-    throw "Email is required";
-  } else if (email && !email.match(validEmail)) {
-    throw "Invalid email";
+  if (key === "email" && value.length && !value.match(validEmail)) {
+    return false;
   } else {
     return true;
   }
 };
 
-export const validatePersonalNumber = (pnr: string) => {
+export const validatePersonalNumber = (key: string, value: string) => {
   const validPnr =
     /^\d{2}([0][1-9]|[1][0-2])([0][1-9]|[1-2][0-9]|[3][0-1])-\d{4}$/;
 
-  if (!pnr) {
-    throw "Person number is required";
-  } else if (pnr && !pnr.match(validPnr)) {
-    throw "Invalid person number";
+  if (key === "personalnumber" && value.length && !value.match(validPnr)) {
+    return false;
   } else {
     return true;
   }
 };
 
-export const validateZipCode = (zip: string) => {
-  const validZip = /^(s-|S-){0,1}[0-9]{3}\s?[0-9]{2}$/;
-  if (!zip) {
-    throw "Zip is required";
-  } else if (zip && !zip.match(validZip)) {
-    throw "Invalid zip";
+export const validateZipCode = (key: string, value: string) => {
+  const validZipCode = /^(s-|S-){0,1}[0-9]{3}\s?[0-9]{2}$/;
+  if (key === "zipCode" && value.length && !value.match(validZipCode)) {
+    return false;
   } else {
     return true;
   }
 };
 
-export const validateText = (object: TClient | any) => {
-  // type 'any' is used for creating and testing invalid data
+export const validateText = (object: TClient) => {
+  // This is for checking if any key is missing from client site
+  const errorMissingKey: Terror[] = [];
   const keys = [
     "firstname",
     "lastname",
@@ -49,19 +49,41 @@ export const validateText = (object: TClient | any) => {
     "city",
     "country",
   ];
-  const error: any = [];
   keys.forEach((key) => {
     if (!object.hasOwnProperty(key)) {
-      error.push({ error: `${key} is required` });
+      errorMissingKey.push({ error: `${key} is missing` });
     } else {
-      return error;
+      return errorMissingKey;
     }
   });
 
-  if (error.length) {
-    console.log(error);
-    return error;
-  } else {
-    return true;
+  if (errorMissingKey.length) {
+    return errorMissingKey;
   }
+
+  // if check in above is passed , then check for following emphasized validation
+
+  const errorInEphasizedCheck: Terror[] = [];
+  Object.entries(object).forEach(([key, value]) => {
+    if (value.length === 0) {
+      errorInEphasizedCheck.push({ error: `${key} must not be empty` });
+    }
+
+    const isEmail = validateEmail(key, value);
+    const isPnr = validatePersonalNumber(key, value);
+    const isZipCode = validateZipCode(key, value);
+
+    !isEmail
+      ? errorInEphasizedCheck.push({ error: "email is not valid" })
+      : errorInEphasizedCheck;
+    !isPnr
+      ? errorInEphasizedCheck.push({ error: "personal number is not valid" })
+      : errorInEphasizedCheck;
+    !isZipCode
+      ? errorInEphasizedCheck.push({ error: "zip code is not valid" })
+      : errorInEphasizedCheck;
+  });
+
+  console.log(errorInEphasizedCheck);
+  return errorInEphasizedCheck;
 };

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import ClientModel from "../models/clientsModel";
-import { TClient } from "../types/clientsTypes";
+import { TClient } from "../types/types";
 
 export const createClient = async (clientData: TClient) => {
   return await new ClientModel(clientData).save();

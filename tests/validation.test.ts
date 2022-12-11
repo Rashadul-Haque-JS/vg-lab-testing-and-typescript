@@ -5,79 +5,136 @@ import {
   validateText,
 } from "../utils/validation";
 
-const validClient = {
-  firstname: "Jhon",
-  lastname: "Damn",
-  email: "jhon@gmail.com",
-  personalnumber: "600523-5643",
-  address: "new town 5",
-  zipCode: "123 45",
-  city: "Dunkrik",
-  country: "Highland",
+// example of valid req.body
+const validClientData = {
+  firstname: "Anna",
+  lastname: "Andersson",
+  email: "anna.andersson@gmail.com",
+  personalnumber: "550713-1405",
+  address: "Utvecklargatan 12",
+  zipCode: "111 22",
+  city: "Stockholm",
+  country: "Sweden",
 };
 
-const invalidClient = {
-  lastname: "Damn",
-  personalnumber: "600523-5643",
-  address: "new town 5",
-  zipCode: "123 45",
-  country: "Highland",
-};
-// Email test
+// **************** test of validator functions ************************************************
+// Email unit test
 describe("Validate email", () => {
   test("Should return true when input email format is valid", () => {
-    expect(validateEmail("example@gmail.com")).toBe(true);
+    expect(validateEmail("email", "example@gmail.com")).toBeTruthy();
   });
   test("Should throw an error as invalid email format", () => {
-    expect(() => validateEmail("example@gmail")).toThrow("Invalid email");
-  });
-
-  test("Should throw an error when email is empty", () => {
-    expect(() => validateEmail("")).toThrow("Email is required");
+    expect(validateEmail("email", "example@gmail")).toBeFalsy();
   });
 });
 
-// Personal number test
+// Personal number unit test
 describe("Validate personal number", () => {
   test("Should return true when input person number is valid", () => {
-    expect(validatePersonalNumber("550713-1405")).toBe(true);
+    expect(
+      validatePersonalNumber("personalnumber", "550713-1405")
+    ).toBeTruthy();
   });
 
   test("Should throw an error as invalid person number", () => {
-    expect(() => validatePersonalNumber("5507131405")).toThrow(
-      "Invalid person number"
-    );
-  });
-
-  test("Should throw an error when person number is empty", () => {
-    expect(() => validatePersonalNumber("")).toThrow(
-      "Person number is required"
-    );
+    expect(validatePersonalNumber("personalnumber", "550713-405")).toBeFalsy();
   });
 });
 
-// Zip test
+// Zip code unit test
 describe("Validate zip code", () => {
   test("Should return true when input is string", () => {
-    expect(validateZipCode("123 45")).toBe(true);
+    expect(validateZipCode("zipCode", "123 45")).toBeTruthy();
   });
 
   test("Should throw an error when zip is empty", () => {
-    expect(() => validateZipCode("")).toThrow("Zip is required");
+    expect(validateZipCode("zipCode", "123 5")).toBeFalsy();
   });
 });
 
-// Others text validations
-describe("Validate text", () => {
-  test("Should return true when value is not empty", () => {
-    expect(validateText(validClient)).toBe(true);
+// **************** Full test of user input (req.body) ************************************************
+describe("Itegrated validations of client data", () => {
+  test("Should return true when input is fully valid", () => {
+    expect(validateText(validClientData)).toStrictEqual([]);
   });
 
-  test("Should return error when value is empty", () => {
-    expect(validateText(invalidClient)).toStrictEqual([
-      { error: "firstname is required" },
-      { error: "email is required" },
-      { error: "city is required" },
+  // When key is missing
+  test("Should return array of error object when key is missing", () => {
+    expect(
+      validateText({
+        // firstname is empty
+        lastname: "Andersson",
+        email: "", // email is empty
+        personalnumber: "550713-1405",
+        address: "Utvecklargatan 12",
+        //zip code is missing
+        city: "Stockholm",
+        country: "Sweden",
+      })
+    ).toStrictEqual([
+      { error: "firstname is missing" },
+      { error: "zipCode is missing" },
     ]);
   });
+
+  // when all keys are present, but value/values are empty
+  test("Should return array of error object when value is empty", () => {
+    expect(
+      validateText({
+        firstname: "", // firstname is empty
+        lastname: "Andersson",
+        email: "", // email is empty
+        personalnumber: "550713-1405",
+        address: "Utvecklargatan 12",
+        zipCode: "111 22",
+        city: "Stockholm",
+        country: "Sweden",
+      })
+    ).toStrictEqual([
+      { error: "firstname must not be empty" },
+      { error: "email must not be empty" },
+    ]);
+  });
+
+  // when values are invalid
+  test("Should return array of error object when value is not valid", () => {
+    expect(
+      validateText({
+        firstname: "Anna",
+        lastname: "Andersson",
+        email: "anna.andersson@gmail", // invalid email
+        personalnumber: "55071-1405", // invalid personal number
+        address: "Utvecklargatan 12",
+        zipCode: "111 2", // invalid zip code
+        city: "Stockholm",
+        country: "Sweden",
+      })
+    ).toStrictEqual([
+      { error: "email is not valid" },
+      { error: "personal number is not valid" },
+      { error: "zip code is not valid" },
+    ]);
+  });
+});
+
+// when errors mixed errors in emphasized test are caught
+test("Should return array of error object when value is empty or not valid", () => {
+  expect(
+    validateText({
+      firstname: "Anna",
+      lastname: "", // lastname is empty
+      email: "anna.andersson@gmail", // invalid email
+      personalnumber: "55071-1405", // invalid personal number
+      address: "Utvecklargatan 12",
+      zipCode: "111 2", // invalid zip code
+      city: "", //city is empty
+      country: "Sweden",
+    })
+  ).toStrictEqual([
+    { error: "lastname must not be empty" },
+    { error: "email is not valid" },
+    { error: "personal number is not valid" },
+    { error: "zip code is not valid" },
+    { error: "city must not be empty" },
+  ]);
 });
