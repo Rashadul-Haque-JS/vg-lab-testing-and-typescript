@@ -73,6 +73,5 @@ export const validateText = (object: TClient) => {
     !isZipCode ? error.push({ error: "zip code is not valid" }) : error;
   });
 
-  console.log(error);
   return error;
 };
