@@ -1,8 +1,11 @@
-import express from 'express'
-const app = express()
+import express, { json } from "express";
+import contact from "./routes";
 
-app.get('/', (req, res) => {
-    res.send('Project started')
-})
+const makeApp = ({ createContact }: any) => {
+  const app = express();
+  app.use(json());
+  app.use("", contact);
+  return app;
+};
 
-export default app
+export default makeApp;
