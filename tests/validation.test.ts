@@ -58,13 +58,13 @@ describe("Itegrated validations of client data", () => {
     expect(validateText(validClientData)).toStrictEqual([]);
   });
 
-  // When key is missing
-  test("Should return array of error object when key is missing", () => {
+  // When key/keys are missing
+  test("Should return array of error/errors object when key is missing", () => {
     expect(
       validateText({
-        // firstname is empty
+        // firstname is missing
         lastname: "Andersson",
-        email: "", // email is empty
+        email: "anna.andersson@gmail.com",
         personalnumber: "550713-1405",
         address: "Utvecklargatan 12",
         //zip code is missing
@@ -81,8 +81,8 @@ describe("Itegrated validations of client data", () => {
   test("Should return array of error object when value is empty", () => {
     expect(
       validateText({
-        firstname: "", // firstname is empty
-        lastname: "Andersson",
+        firstname: "Anna",
+        lastname: "", // lastname is empty
         email: "", // email is empty
         personalnumber: "550713-1405",
         address: "Utvecklargatan 12",
@@ -91,13 +91,13 @@ describe("Itegrated validations of client data", () => {
         country: "Sweden",
       })
     ).toStrictEqual([
-      { error: "firstname must not be empty" },
+      { error: "lastname must not be empty" },
       { error: "email must not be empty" },
     ]);
   });
 
   // when values are invalid
-  test("Should return array of error object when value is not valid", () => {
+  test("Should return array of error/errors object when value is not valid", () => {
     expect(
       validateText({
         firstname: "Anna",
@@ -118,23 +118,22 @@ describe("Itegrated validations of client data", () => {
 });
 
 // when errors mixed errors in emphasized test are caught
-test("Should return array of error object when value is empty or not valid", () => {
+test("Should return array of error/errors object when key is missing / value is empty / value is not valid", () => {
   expect(
     validateText({
       firstname: "Anna",
-      lastname: "", // lastname is empty
+      // lastname is missing
       email: "anna.andersson@gmail", // invalid email
       personalnumber: "55071-1405", // invalid personal number
       address: "Utvecklargatan 12",
-      zipCode: "111 2", // invalid zip code
+      zipCode: "111 22",
       city: "", //city is empty
       country: "Sweden",
     })
   ).toStrictEqual([
-    { error: "lastname must not be empty" },
+    { error: "lastname is missing" },
     { error: "email is not valid" },
     { error: "personal number is not valid" },
-    { error: "zip code is not valid" },
     { error: "city must not be empty" },
   ]);
 });

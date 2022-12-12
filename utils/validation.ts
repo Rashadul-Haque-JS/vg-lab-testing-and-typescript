@@ -38,7 +38,7 @@ export const validateZipCode = (key: string, value: string) => {
 
 export const validateText = (object: TClient) => {
   // This is for checking if any key is missing from client site
-  const errorMissingKey: Terror[] = [];
+  const error: Terror[] = [];
   const keys = [
     "firstname",
     "lastname",
@@ -49,41 +49,30 @@ export const validateText = (object: TClient) => {
     "city",
     "country",
   ];
+
   keys.forEach((key) => {
     if (!object.hasOwnProperty(key)) {
-      errorMissingKey.push({ error: `${key} is missing` });
+      error.push({ error: `${key} is missing` });
     } else {
-      return errorMissingKey;
+      return error;
     }
   });
 
-  if (errorMissingKey.length) {
-    return errorMissingKey;
-  }
-
-  // if check in above is passed , then check for following emphasized validation
-
-  const errorInEphasizedCheck: Terror[] = [];
+  // check for following emphasized validation of input
   Object.entries(object).forEach(([key, value]) => {
     if (value.length === 0) {
-      errorInEphasizedCheck.push({ error: `${key} must not be empty` });
+      error.push({ error: `${key} must not be empty` });
     }
 
     const isEmail = validateEmail(key, value);
     const isPnr = validatePersonalNumber(key, value);
     const isZipCode = validateZipCode(key, value);
 
-    !isEmail
-      ? errorInEphasizedCheck.push({ error: "email is not valid" })
-      : errorInEphasizedCheck;
-    !isPnr
-      ? errorInEphasizedCheck.push({ error: "personal number is not valid" })
-      : errorInEphasizedCheck;
-    !isZipCode
-      ? errorInEphasizedCheck.push({ error: "zip code is not valid" })
-      : errorInEphasizedCheck;
+    !isEmail ? error.push({ error: "email is not valid" }) : error;
+    !isPnr ? error.push({ error: "personal number is not valid" }) : error;
+    !isZipCode ? error.push({ error: "zip code is not valid" }) : error;
   });
 
-  console.log(errorInEphasizedCheck);
-  return errorInEphasizedCheck;
+  console.log(error);
+  return error;
 };
