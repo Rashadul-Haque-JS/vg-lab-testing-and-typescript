@@ -32,6 +32,13 @@ beforeAll(() => {
     });
 });
 
+beforeEach(() => {
+  createContact.mockReset();
+  createContact.mockResolvedValue(validClientData);
+
+ 
+});
+
 // *******************create contact********************************************************
 describe("POST/contact", () => {
   it("should return 201 status code when posting client with valid data", async () => {

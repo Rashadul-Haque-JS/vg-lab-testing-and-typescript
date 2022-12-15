@@ -14,7 +14,7 @@ const validClientData = {
   address: "Utvecklargatan 12",
   zipCode: "111 22",
   city: "Stockholm",
-  country: "Sweden",
+  country: "Sweden"
 };
 
 // **************** test of validator functions ************************************************

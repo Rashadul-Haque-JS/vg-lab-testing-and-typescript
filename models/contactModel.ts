@@ -8,8 +8,8 @@ const contactSchema = new Schema<TClient>({
   address: String,
   zipCode: String,
   city: String,
-  country: String,
+  country: String
 });
-const ContactModel = model("contact", contactSchema);
-export const isValidId = (id: string) => Types.ObjectId.isValid(id);
+const ContactModel = model("contacts", contactSchema);
 export default ContactModel;
+export const isValidId = (id: string) => Types.ObjectId.isValid(id);
