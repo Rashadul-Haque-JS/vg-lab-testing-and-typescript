@@ -1,6 +1,6 @@
 /* Three functons (almost identical) for validation of email, personalnumber and zipCode have been created as these function's names
 are mentioned in instructions separately. Otherwise it would be possible to implement DRY concept here by creating
-one function for format validation.
+one combined function for format validation.
 */
 
 import { TClient, Terror } from "../types/types";
