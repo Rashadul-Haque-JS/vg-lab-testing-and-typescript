@@ -3,14 +3,14 @@
   with object that not match with TClient. */
 
 export type TClient = {
-  firstname?: string;
-  lastname?: string;
-  email?: string;
-  personalnumber?: string;
-  address?: string;
-  zipCode?: string;
-  city?: string;
-  country?: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  personalnumber: string;
+  address: string;
+  zipCode: string;
+  city: string;
+  country: string;
 };
 
 export type Terror = {

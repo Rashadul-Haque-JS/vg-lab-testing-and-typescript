@@ -1,10 +1,11 @@
 import express, { json } from "express";
-import contact from "./routes";
+import routes from "./routes";
 
-const makeApp = ({ createContact }: any) => {
+const makeApp = ({ createContact, getAllContact }: any) => {
   const app = express();
   app.use(json());
-  app.use("", contact);
+  app.use("", routes);
+
   return app;
 };
 

@@ -70,7 +70,7 @@ describe("Itegrated validations of client data", () => {
         //zip code is missing
         city: "Stockholm",
         country: "Sweden",
-      })
+      }as any)
     ).toStrictEqual([
       { error: "firstname is missing" },
       { error: "zipCode is missing" },
@@ -129,7 +129,7 @@ test("Should return array of error/errors object when key is missing / value is 
       zipCode: "111 22",
       city: "", //city is empty
       country: "Sweden",
-    })
+    } as any)
   ).toStrictEqual([
     { error: "lastname is missing" },
     { error: "email is not valid" },
