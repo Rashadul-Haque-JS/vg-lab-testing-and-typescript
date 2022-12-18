@@ -11,4 +11,5 @@ export const getAllContact = async () => {
 
 export const getContactById = async (id: string) => {
   return await ContactModel.findById(id);
+
 };

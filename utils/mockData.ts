@@ -74,4 +74,5 @@ export const mockContctByIdData = {
   country: "Sweden",
   lat: 59.3251172,
   lng: 18.0710935,
+
 };

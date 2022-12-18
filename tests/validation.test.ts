@@ -14,7 +14,7 @@ const validClientData = {
   address: "Utvecklargatan 12",
   zipCode: "111 22",
   city: "Stockholm",
-  country: "Sweden"
+  country: "Sweden",
 };
 
 // **************** test of validator functions ************************************************
@@ -70,7 +70,7 @@ describe("Itegrated validations of client data", () => {
         //zip code is missing
         city: "Stockholm",
         country: "Sweden",
-      }as any)
+      } as any)
     ).toStrictEqual([
       { error: "firstname is missing" },
       { error: "zipCode is missing" },
