@@ -8,7 +8,7 @@ const contactSchema = new Schema<TClient>({
   address: String,
   zipCode: String,
   city: String,
-  country: String,
+  country: String
 });
 const ContactModel = model("contacts", contactSchema);
 export default ContactModel;

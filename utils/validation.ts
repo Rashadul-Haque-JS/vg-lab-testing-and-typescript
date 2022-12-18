@@ -3,7 +3,7 @@ are mentioned in instructions separately. Otherwise it would be possible to impl
 one combined function for format validation.
 */
 
-import { TClient, Terror } from "../types/types";
+import { TClient, TError } from "../types/types";
 
 export const validateEmail = (key: string, value: string) => {
   const validEmail =
@@ -38,7 +38,7 @@ export const validateZipCode = (key: string, value: string) => {
 
 export const validateText = (object: TClient) => {
   // This is for checking if any key is missing from client site
-  const error: Terror[] = [];
+  const error: TError[] = [];
   const keys = [
     "firstname",
     "lastname",

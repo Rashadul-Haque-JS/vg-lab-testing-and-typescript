@@ -1,7 +1,3 @@
-/* Here all keys in TClient are marked with '?' to test missing key, 
-  unless typescript will indicate any missing key automatically while testing 
-  with object that not match with TClient. */
-
 export type TClient = {
   firstname: string;
   lastname: string;
@@ -13,6 +9,6 @@ export type TClient = {
   country: string;
 };
 
-export type Terror = {
+export type TError = {
   error: string;
 };
