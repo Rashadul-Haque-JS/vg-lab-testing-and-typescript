@@ -32,6 +32,7 @@ export const nockResponseData = [
 ];
 
 // GET/contact tests data
+
 export const mockAllContact = [
   {
     id: "639c7f60216bf54f2956e6f0",
@@ -44,7 +45,7 @@ export const mockAllContact = [
     city: "Stockholm",
     country: "Sweden",
     lat: 59.3251172,
-    lng: 18.0710935
+    lng: 18.0710935,
   },
   {
     id: "639ceceb875dc4af609dd18e",
@@ -56,8 +57,8 @@ export const mockAllContact = [
     zipCode: "111 22",
     city: "Gothenburg",
     country: "Sweden",
-    lat:  57.7072326,
-    lng: 11.9670171
+    lat: 57.7072326,
+    lng: 11.9670171,
   },
 ];
 
@@ -74,5 +75,4 @@ export const mockContctByIdData = {
   country: "Sweden",
   lat: 59.3251172,
   lng: 18.0710935,
-
 };
